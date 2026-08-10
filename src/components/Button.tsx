@@ -3,7 +3,7 @@ import type { ReactElement } from "react";
 export interface ButtonProps {
   variant: "primary" | "secondary";
   size: "sm" | "md" | "lg";
-  text: string;
+  text?: string;
   startIcon?: ReactElement;
   onClick: () => void;
 }
@@ -16,9 +16,9 @@ function Button(props: ButtonProps) {
       "bg-purple-400 text-purple-500 text-gray-800 hover:bg-slate-400/40 focus:ring-sky-500",
   };
   const sizeClasses = {
-    sm: "px-3 py-1.5 text-xs",
-    md: "px-4 py-2 text-sm",
-    lg: "px-5 py-2.5 text-base",
+    sm: "px-3 py-1.5 text-xs rounded-lg",
+    md: "px-4 py-2 text-sm rounded-md",
+    lg: "px-5 py-2.5 text-base rounded-md",
   };
   const combinedClasses = `${variantClasses[props.variant]} ${
     sizeClasses[props.size]
@@ -26,9 +26,9 @@ function Button(props: ButtonProps) {
   return (
     <div>
       <button
-        className={`${combinedClasses} flex items-center gap-2 transition-all duration-200 rounded-md cursor-pointer`}
+        className={`${combinedClasses} flex items-center gap-2 transition-all duration-200 cursor-pointer`}
       >
-        {props.startIcon} {props.text}
+        {props.startIcon} {props.text && <span>{props.text}</span>}
       </button>
     </div>
   );
