@@ -1,9 +1,10 @@
 import type { ReactElement } from "react";
 
 export interface ButtonProps {
-  variant: "primary" | "secondary";
+  variant: "primary" | "secondary" | "tertiary";
   size: "sm" | "md" | "lg";
   text?: string;
+  disabled?: boolean;
   startIcon?: ReactElement;
   onClick: () => void;
 }
@@ -11,14 +12,16 @@ export interface ButtonProps {
 function Button(props: ButtonProps) {
   const variantClasses = {
     primary:
-      "bg-purple-600/80 text-white hover:bg-purple-600 focus:ring-sky-500",
+      "bg-purple-600/80 text-white hover:enabled:bg-purple-600 focus:ring-sky-500 ",
     secondary:
-      "bg-purple-400 text-purple-500 text-gray-800 hover:bg-slate-400/40 focus:ring-sky-500",
+      "bg-purple-400/50 text-purple-500 hover:enabled:bg-purple-400 focus:ring-sky-500 disabled:opacity-50",
+    tertiary:
+      " text-gray-700 hover:enabled:bg-gray-300 focus:ring-gray-500 disabled:opacity-50",
   };
   const sizeClasses = {
-    sm: "px-3 py-1.5 text-xs rounded-lg",
-    md: "px-4 py-2 text-sm rounded-md",
-    lg: "px-5 py-2.5 text-base rounded-md",
+    sm: "px-2 py-0.5 md:px-2 md:py-1.5 text-xs rounded-lg",
+    md: "px-3 py-1 md:px-4 md:py-2 text-sm rounded-md",
+    lg: "px-4 py-1.5 md:px-5 md:py-2.5 text-base rounded-md",
   };
   const combinedClasses = `${variantClasses[props.variant]} ${
     sizeClasses[props.size]
@@ -26,7 +29,9 @@ function Button(props: ButtonProps) {
   return (
     <div>
       <button
-        className={`${combinedClasses} flex items-center gap-2 transition-all duration-200 cursor-pointer`}
+        disabled={props.disabled}
+        onClick={props.onClick}
+        className={`${combinedClasses} flex items-center gap-1 md:gap-2 transition-all duration-200 cursor-pointer disabled:cursor-not-allowed`}
       >
         {props.startIcon} {props.text && <span>{props.text}</span>}
       </button>
