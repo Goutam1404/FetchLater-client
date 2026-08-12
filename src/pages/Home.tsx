@@ -5,18 +5,26 @@ import ShareIcons from "../icons/ShareIcons";
 import Card from "../components/Card";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
+import CreateContentModal from "../components/CreateContentModal";
 
 function Home() {
   const [lock, setLock] = useState(false);
   const toggleLock = () => {
     setLock(!lock);
   };
+  const [moalOpen, setModalOpen] = useState(false);
   return (
-    <div className="bg-gray-100 h-screen">
-      <Navbar />
-      <div className="flex">
+    <div className="bg-gray-100 h-screen transition-all flex">
+      <CreateContentModal
+        isOpen={moalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+      <div>
         <SideBar />
-        <div className="m-2 px-2 flex gap-2 flex-wrap justify-center md:justify-start">
+      </div>
+      <div className="flex flex-col w-full">
+        <Navbar addOpen={() => setModalOpen(true)} />
+        <div className=" md:ml-4 md:px-2 flex gap-2 flex-wrap justify-center md:justify-start">
           <Card
             title="Heading"
             type="text"
