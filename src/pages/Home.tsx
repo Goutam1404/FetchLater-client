@@ -6,124 +6,139 @@ import Card from "../components/Card";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import CreateContentModal from "../components/CreateContentModal";
+import useContent from "../hooks/useContent";
+import DeleteIcon from "../icons/DeleteIcon";
+import {
+  ContentType,
+  createContent,
+  deleteContent,
+  shareContent,
+  toggleShare,
+} from "../api/Content.api";
+import ConfirmationPop from "../components/ConfirmationPop";
+
+export interface addContentProps {
+  title: string;
+  link: string;
+  contentFormat: ContentType;
+  description: string;
+}
 
 function Home() {
-  const [lock, setLock] = useState(false);
-  const toggleLock = () => {
-    setLock(!lock);
+  const [selectedContentId, setSelectedContentId] = useState<string | null>(
+    null
+  );
+  const [isChange, setIsChange] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [popOpen, setPopOpen] = useState(false);
+  const contents = useContent(isChange);
+  // console.log(contents);
+
+  const addContent = async ({
+    title,
+    link,
+    contentFormat,
+    description,
+  }: addContentProps) => {
+    try {
+      console.log(title + " " + contentFormat);
+
+      await createContent({ title, link, contentFormat, description });
+      setIsChange(!isChange);
+    } catch (error) {}
   };
-  const [moalOpen, setModalOpen] = useState(false);
+
+  const onDelete = async (contentId: string) => {
+    setSelectedContentId(contentId);
+    setPopOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedContentId) return;
+
+    try {
+      await deleteContent({ contentId: selectedContentId });
+      setIsChange(!isChange);
+      setPopOpen(false); // Close the popup after success
+      setSelectedContentId(null); // Clear the stored ID
+    } catch (error) {
+      console.error("Deletion failed:", error);
+    }
+  };
+
+  const onShare = async (contentId: string) => {
+    try {
+      await shareContent({ contentId });
+    } catch (error) {}
+  };
+
+  const toggleIsShare = async (contentId: string) => {
+    try {
+      await toggleShare({ contentId });
+      setIsChange(!isChange);
+    } catch (error) {}
+  };
+
   return (
     <div className="bg-gray-100 h-screen transition-all flex">
       <CreateContentModal
-        isOpen={moalOpen}
+        isOpen={modalOpen}
+        addContent={addContent}
         onClose={() => setModalOpen(false)}
+      />
+      <ConfirmationPop
+        confirm={popOpen}
+        confirmationText="Confirm to delete this content ?"
+        onClose={() => setPopOpen(false)}
+        confirmationClick={handleConfirmDelete}
       />
       <div>
         <SideBar />
       </div>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col ml-1 md:ml-4 w-72 md:w-full ">
         <Navbar addOpen={() => setModalOpen(true)} />
-        <div className=" md:ml-4 md:px-2 flex gap-2 flex-wrap justify-center md:justify-start">
-          <Card
-            title="Heading"
-            type="text"
-            description="nothing to be done"
-            status={
-              <Button
-                variant="tertiary"
-                size="sm"
-                startIcon={
-                  lock ? <LockIcons size="sm" /> : <UnLockIcons size="sm" />
+        <div className="  md:px-2 flex gap-2 md:gap-4 flex-wrap justify-center md:justify-start">
+          {contents &&
+            contents.map((content) => (
+              <Card
+                key={content._id}
+                title={content.title}
+                type={content.contentFormat}
+                link={content.link}
+                description={content.description}
+                status={
+                  <Button
+                    variant="tertiary"
+                    size="sm"
+                    startIcon={
+                      content.isShared ? (
+                        <LockIcons size="sm" />
+                      ) : (
+                        <UnLockIcons size="sm" />
+                      )
+                    }
+                    onClick={() => toggleIsShare(content._id)}
+                  />
                 }
-                onClick={toggleLock}
-              />
-            }
-            buttons={
-              <Button
-                variant="tertiary"
-                size="sm"
-                disabled={lock}
-                startIcon={<ShareIcons size="sm" />}
-                onClick={() => {}}
-              />
-            }
-          />
-          <Card
-            title="Heading"
-            type="tweet"
-            link="https://x.com/gautam70477/status/1993015499773690146"
-            description="nothing to be done"
-            status={
-              <Button
-                variant="tertiary"
-                size="sm"
-                startIcon={
-                  lock ? <LockIcons size="sm" /> : <UnLockIcons size="sm" />
+                share={
+                  <Button
+                    variant="tertiary"
+                    size="sm"
+                    disabled={content.isShared}
+                    startIcon={<ShareIcons size="sm" />}
+                    onClick={() => onShare(content._id)}
+                  />
                 }
-                onClick={toggleLock}
-              />
-            }
-            buttons={
-              <Button
-                variant="tertiary"
-                size="sm"
-                disabled={lock}
-                startIcon={<ShareIcons size="sm" />}
-                onClick={() => {}}
-              />
-            }
-          />
-          <Card
-            title="Youtube video"
-            type="youtube"
-            link="https://youtu.be/LpRr7PQfIGY?si=L-wyT-9FFRQhQNdS"
-            description="nothing to be done"
-            status={
-              <Button
-                variant="tertiary"
-                size="sm"
-                startIcon={
-                  lock ? <LockIcons size="sm" /> : <UnLockIcons size="sm" />
+                delete={
+                  <Button
+                    variant="tertiary"
+                    size="sm"
+                    startIcon={<DeleteIcon size="md" />}
+                    onClick={() => onDelete(content._id)}
+                  />
                 }
-                onClick={toggleLock}
               />
-            }
-            buttons={
-              <Button
-                variant="tertiary"
-                size="sm"
-                disabled={lock}
-                startIcon={<ShareIcons size="sm" />}
-                onClick={() => {}}
-              />
-            }
-          />
-          <Card
-            title="Network video"
-            type="youtube"
-            link="https://youtu.be/wGjyuDvvRx4?si=Sa8Sty4wa_MATxsa"
-            description="nothing to be done"
-            status={
-              <Button
-                variant="tertiary"
-                size="sm"
-                startIcon={
-                  lock ? <LockIcons size="sm" /> : <UnLockIcons size="sm" />
-                }
-                onClick={toggleLock}
-              />
-            }
-            buttons={
-              <Button
-                variant="tertiary"
-                size="sm"
-                disabled={lock}
-                startIcon={<ShareIcons size="sm" />}
-                onClick={() => {}}
-              />
-            }
-          />
+            ))}
         </div>
       </div>
     </div>

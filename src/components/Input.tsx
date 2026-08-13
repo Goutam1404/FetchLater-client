@@ -1,18 +1,17 @@
 export interface InputProps {
   type: string;
   placeholder: string;
-  onChange: () => void;
-  value?: string;
+  ref: any;
+  onChange?: () => void;
 }
 
-function Input({ type, placeholder, onChange, value }: InputProps) {
+function Input({ type, placeholder, ref }: InputProps) {
   return (
     <div>
       <input
         type={type}
         placeholder={placeholder}
-        onChange={onChange}
-        value={value}
+        ref={ref}
         className=" min-w-full px-4 py-2 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-700 focus:border-transparent"
       />
     </div>

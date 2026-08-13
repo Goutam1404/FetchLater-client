@@ -8,7 +8,8 @@ export interface CardProps {
   link?: string;
   description?: string;
   status?: ReactElement;
-  buttons: ReactElement;
+  share: ReactElement;
+  delete: ReactElement;
 }
 
 function Card(props: CardProps) {
@@ -26,12 +27,12 @@ function Card(props: CardProps) {
   };
 
   return (
-    <div className="m-2 min-w-72 max-w-80 md:min-w-60 md:max-w-72 max-h-fit px-2 py-1 bg-purple-300 text-purple-500 rounded-lg border border-slate-400 shadow-md transition-all duration-200">
+    <div className="m-2 min-w-60 md:max-w-72 max-h-fit px-2 py-1 bg-purple-300 text-purple-500 rounded-lg border border-slate-400 shadow-md transition-all duration-200">
       {/* Card header */}
       <div className="flex items-center justify-between pb-2 border-b border-slate-400">
-        <h2 className="text-xl ">{props.title}</h2>
+        <h2 className="font-semibold text-lg md:text-xl line-clamp-1 mr-2 md:mr-2">{props.title}</h2>
         <span className="flex flex-row items-center justify-end">
-          {props.status} {props.buttons}
+          {props.status} {props.share}
         </span>
       </div>
       {/* Main content */}
@@ -52,25 +53,18 @@ function Card(props: CardProps) {
             allowFullScreen
           ></iframe>
         )}
-        <p className="line-clamp-1 py-2">
-          {props.description}
-        </p>
+        {props.type=="text" &&(<a href={props.link} target="_blank">Attached link</a>)}
+        <p className="line-clamp-1 py-2">{props.description}</p>
       </div>
       {/* Card footer */}
       <div className="flex  justify-between">
         <span className="cursor-pointer hover:text-purple-600">
           Read more...
         </span>
-        <Button
-          variant="tertiary"
-          size="sm"
-          startIcon={<DeleteIcon size="md" />}
-          onClick={() => {}}
-        />
+        <div>{props.delete}</div>
       </div>
     </div>
   );
 }
 
 export default Card;
-
