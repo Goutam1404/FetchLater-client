@@ -18,9 +18,9 @@ export const createContent = async ({
   contentFormat,
   tags,
 }: ContentInputProps) => {
-  console.log(title + " " + description + " " + link + " " + contentFormat);
+  // console.log(title + " " + description + " " + link + " " + contentFormat);
 
-  const res = await API.post("/content", {
+  const res = await API.post("/api/v1/content", {
     title,
     description,
     link,
@@ -33,9 +33,9 @@ export const createContent = async ({
 
 export const getAllContent = async () => {
   try {
-    const res = await API.get("/content");
-    console.log(res.data);
-    console.log(res.data.content);
+    const res = await API.get("/api/v1/content");
+    // console.log(res.data);
+    // console.log(res.data.content);
 
     return res.data.content;
   } catch (error) {}
@@ -43,7 +43,7 @@ export const getAllContent = async () => {
 
 export const getContent = async ({ contentId }: { contentId: string }) => {
   try {
-    const res = await API.get(`/content/${contentId}`);
+    const res = await API.get(`/api/v1/content/${contentId}`);
     console.log(res.data);
     console.log(res.data.content);
 
@@ -53,7 +53,7 @@ export const getContent = async ({ contentId }: { contentId: string }) => {
 
 export const deleteContent = async ({ contentId }: { contentId: string }) => {
   try {
-    const res = await API.delete(`/content/${contentId}`);
+    const res = await API.delete(`/api/v1/content/${contentId}`);
     console.log(res.data);
     // console.log(res.data.content);
 
@@ -63,7 +63,7 @@ export const deleteContent = async ({ contentId }: { contentId: string }) => {
 
 export const shareContent = async ({ contentId }: { contentId: string }) => {
   try {
-    const res = await API.post(`/content/share/${contentId}`);
+    const res = await API.post(`/api/v1/content/share/${contentId}`);
     console.log(res.data);
     console.log(res.data.link);
 
@@ -79,7 +79,7 @@ export const getSharedContent = async ({
   token: string;
 }) => {
   try {
-    const res = await API.post(`/content/share/${userId}/${token}`);
+    const res = await API.post(`/api/v1/content/share/${userId}/${token}`);
     console.log(res.data);
     console.log(res.data.sharedData);
 
@@ -89,7 +89,7 @@ export const getSharedContent = async ({
 
 export const toggleShare = async ({ contentId }: { contentId: string }) => {
   try {
-    const res = await API.patch(`/content/share/${contentId}`);
+    const res = await API.patch(`/api/v1/content/share/${contentId}`);
     console.log(res.data);
     console.log(res.data.updatedContent);
 
