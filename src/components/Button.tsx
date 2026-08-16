@@ -1,11 +1,12 @@
 import type { ReactElement } from "react";
 
 export interface ButtonProps {
-  variant: "primary" | "secondary" | "tertiary";
+  variant: "primary" | "secondary" | "tertiary" | "danger";
   size: "sm" | "md" | "lg";
   text?: string;
   disabled?: boolean;
   startIcon?: ReactElement;
+  endIcon?: ReactElement;
   onClick: () => void;
   loading?: boolean;
 }
@@ -18,6 +19,8 @@ function Button(props: ButtonProps) {
       "bg-purple-400/50 text-purple-500 hover:enabled:bg-purple-400 focus:ring-sky-500 disabled:opacity-50",
     tertiary:
       " text-gray-700 hover:enabled:scale-120 focus:ring-gray-500 disabled:opacity-50",
+    danger:
+      " text-red-700 hover:enabled:scale-110 focus:ring-gray-500 disabled:opacity-50",
   };
   const sizeClasses = {
     sm: "px-2 py-0.5 md:px-2 md:py-1.5 text-xs rounded-lg",
@@ -35,6 +38,7 @@ function Button(props: ButtonProps) {
         className={`${combinedClasses} w-full flex items-center justify-center gap-1 md:gap-2 transition-all duration-200 cursor-pointer disabled:cursor-not-allowed`}
       >
         {props.startIcon} {props.text && <span>{props.text}</span>}
+        {props.endIcon}
       </button>
     </div>
   );

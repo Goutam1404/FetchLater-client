@@ -8,14 +8,17 @@ import SideBar from "../components/SideBar";
 import CreateContentModal from "../components/CreateContentModal";
 import useContent from "../hooks/useContent";
 import DeleteIcon from "../icons/DeleteIcon";
+
 import {
-  ContentType,
   createContent,
   deleteContent,
   shareContent,
   toggleShare,
+  type ContentType,
 } from "../api/Content.api";
 import ConfirmationPop from "../components/ConfirmationPop";
+import { logOutUser } from "../api/User.api";
+import { useNavigate } from "react-router-dom";
 
 export interface addContentProps {
   title: string;
@@ -25,14 +28,36 @@ export interface addContentProps {
 }
 
 function Home() {
+  const navigate = useNavigate();
   const [selectedContentId, setSelectedContentId] = useState<string | null>(
     null
   );
   const [isChange, setIsChange] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [popOpen, setPopOpen] = useState(false);
+  const [onConfirmAction, setOnConfirmAction] = useState(() => () => {});
   const contents = useContent(isChange);
   // console.log(contents);
+
+  const logOut = async () => {
+    setPopOpen(true);
+    setOnConfirmAction(confirmHandleLogout);
+  };
+
+  const confirmHandleLogout = async () => {
+    try {
+      if (popOpen) {
+        await logOutUser();
+        setPopOpen(!popOpen);
+        setIsChange(!isChange);
+        navigate("/signin");
+        // alert("Loggin out");
+      }
+    } catch (error) {
+      console.error("Failed logout:", error);
+      alert("Failed to logout");
+    }
+  };
 
   const addContent = async ({
     title,
@@ -51,16 +76,19 @@ function Home() {
   const onDelete = async (contentId: string) => {
     setSelectedContentId(contentId);
     setPopOpen(true);
+    setOnConfirmAction(handleConfirmDelete);
   };
 
   const handleConfirmDelete = async () => {
     if (!selectedContentId) return;
 
     try {
-      await deleteContent({ contentId: selectedContentId });
-      setIsChange(!isChange);
-      setPopOpen(false); // Close the popup after success
-      setSelectedContentId(null); // Clear the stored ID
+      if (popOpen) {
+        await deleteContent({ contentId: selectedContentId });
+        setIsChange(!isChange);
+        setPopOpen(false); // Close the popup after success
+        setSelectedContentId(null); // Clear the stored ID
+      }
     } catch (error) {
       console.error("Deletion failed:", error);
     }
@@ -89,11 +117,14 @@ function Home() {
       <ConfirmationPop
         confirm={popOpen}
         confirmationText="Confirm to delete this content ?"
-        onClose={() => setPopOpen(false)}
-        confirmationClick={handleConfirmDelete}
+        onClose={() => {
+          setPopOpen(false);
+          setOnConfirmAction(() => {});
+        }}
+        confirmationClick={onConfirmAction}
       />
       <div>
-        <SideBar />
+        <SideBar logOutClick={logOut} />
       </div>
       <div className="flex flex-col ml-1 md:ml-4 w-72 md:w-full ">
         <Navbar addOpen={() => setModalOpen(true)} />

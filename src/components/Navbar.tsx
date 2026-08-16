@@ -2,7 +2,11 @@ import { PlusIcons } from "../icons/PlusIcons";
 import ShareIcons from "../icons/ShareIcons";
 import Button from "./Button";
 
-function Navbar({ addOpen }) {
+interface NavbarProps {
+  addOpen: () => void;
+}
+
+function Navbar({ addOpen }: NavbarProps) {
   return (
     <div className="py-4 px-2 md:px-4 flex items-center justify-end">
       {/* Buttons */}

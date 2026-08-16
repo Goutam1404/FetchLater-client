@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import CloseIcon from "../icons/CloseIcon";
 import Button from "./Button";
 import Input from "./Input";
-import { ContentType, createContent } from "../api/Content.api";
+import { type ContentType } from "../api/Content.api";
 import type { addContentProps } from "../pages/Home";
 
 // have to create a method which will return input values
@@ -21,7 +21,7 @@ function CreateContentModal({
   const titleRef = useRef<HTMLInputElement>();
   const linkRef = useRef<HTMLInputElement>();
   const [contentFormat, setContentFormat] = useState<ContentType>(
-    ContentType.YouTube
+    "youtube"
   );
   const [description, setDescription] = useState("");
 
@@ -76,19 +76,19 @@ function CreateContentModal({
                 variant={contentFormat === "youtube" ? "primary" : "secondary"}
                 size="sm"
                 text="Youtube"
-                onClick={() => setContentFormat(ContentType.YouTube)}
+                onClick={() => setContentFormat("youtube")}
               />
               <Button
                 variant={contentFormat === "tweet" ? "primary" : "secondary"}
                 size="sm"
                 text="X"
-                onClick={() => setContentFormat(ContentType.Tweet)}
+                onClick={() => setContentFormat("tweet")}
               />
               <Button
                 variant={contentFormat === "text" ? "primary" : "secondary"}
                 size="sm"
                 text="Text"
-                onClick={() => setContentFormat(ContentType.Text)}
+                onClick={() => setContentFormat("text")}
               />
             </div>
             {/* Footer */}

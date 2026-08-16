@@ -1,10 +1,7 @@
 import API from "./index.ts";
 
-export enum ContentType {
-  YouTube = "youtube",
-  Tweet = "tweet",
-  Text = "text",
-}
+
+export type ContentType = "youtube" | "tweet" | "text";
 
 export interface ContentInputProps {
   title: string;

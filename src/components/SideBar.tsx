@@ -1,35 +1,40 @@
-import LogoIcon from "../icons/LogoIcon";
+import { LogOutIcon, LogoIcon } from "../icons/LogoIcon";
 import {
   DocsIcon,
   HashTagIcon,
   XIcon,
   YouTubeIcon,
 } from "../icons/SideBarIcons";
+import Button from "./Button";
 import SidebarItem from "./SidebarItem";
 
-function SideBar() {
-    const menuItems = [
-      {
-        text: "Twitter",
-        iconDesktop: <XIcon size="sm" />,
-        iconMobile: <XIcon size="md" />,
-      },
-      {
-        text: "Youtube",
-        iconDesktop: <YouTubeIcon size="sm" />,
-        iconMobile: <YouTubeIcon size="md" />,
-      },
-      {
-        text: "Documents",
-        iconDesktop: <DocsIcon size="md" />,
-        iconMobile: <DocsIcon size="md" />,
-      },
-      {
-        text: "Tags",
-        iconDesktop: <HashTagIcon size="md" />,
-        iconMobile: <HashTagIcon size="md" />,
-      },
-    ];
+export interface SideBarProps {
+  logOutClick: () => void;
+}
+
+function SideBar({logOutClick}:SideBarProps) {
+  const menuItems = [
+    {
+      text: "Twitter",
+      iconDesktop: <XIcon size="sm" />,
+      iconMobile: <XIcon size="md" />,
+    },
+    {
+      text: "Youtube",
+      iconDesktop: <YouTubeIcon size="sm" />,
+      iconMobile: <YouTubeIcon size="md" />,
+    },
+    {
+      text: "Documents",
+      iconDesktop: <DocsIcon size="md" />,
+      iconMobile: <DocsIcon size="md" />,
+    },
+    {
+      text: "Tags",
+      iconDesktop: <HashTagIcon size="md" />,
+      iconMobile: <HashTagIcon size="md" />,
+    },
+  ];
   return (
     <div>
       <div className="w-12 md:w-72 min-h-screen bg-white border-r-2 border-r-slate-300 flex flex-col transition-all duration-300 ease-in-out sticky top-0 left-0 ">
@@ -56,6 +61,24 @@ function SideBar() {
               </div>
             </div>
           ))}
+        </div>
+        {/* Dynamic logout button */}
+        <div className="hidden md:w-full md:flex justify-center md:justify-start p-3 border-t border-slate-200  text-center">
+          <Button
+            variant="danger"
+            size="lg"
+            endIcon={<LogOutIcon size="md" />}
+            text="Logout"
+            onClick={logOutClick}
+          />
+        </div>
+        <div className="w-full md:hidden flex justify-center md:justify-start p-3 border-t border-slate-200  text-center">
+          <Button
+            variant="danger"
+            size="md"
+            endIcon={<LogOutIcon size="lg" />}
+            onClick={logOutClick}
+          />
         </div>
       </div>
     </div>

@@ -1,6 +1,4 @@
 import { type ReactElement } from "react";
-import Button from "./Button";
-import DeleteIcon from "../icons/DeleteIcon";
 
 export interface CardProps {
   title: string;
@@ -27,7 +25,7 @@ function Card(props: CardProps) {
   };
 
   return (
-    <div className="m-2 min-w-60 md:max-w-72 max-h-fit px-2 py-1 bg-purple-300 text-purple-500 rounded-lg border border-slate-400 shadow-md transition-all duration-200">
+    <div className=" my-2 mr-1 md:m-2 md:min-w-60 md:max-w-72 max-h-fit px-2 py-1 bg-purple-300 text-purple-500 rounded-lg border border-slate-400 shadow-md transition-all duration-200">
       {/* Card header */}
       <div className="flex items-center justify-between pb-2 border-b border-slate-400">
         <h2 className="font-semibold text-lg md:text-xl line-clamp-1 mr-2 md:mr-2">{props.title}</h2>
