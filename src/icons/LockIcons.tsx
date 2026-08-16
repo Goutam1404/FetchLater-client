@@ -1,4 +1,3 @@
-import React from "react";
 import { IconSizeVariants, type IconProps } from ".";
 
 export function LockIcons(props: IconProps) {

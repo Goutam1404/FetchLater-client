@@ -5,15 +5,15 @@ import { loginUser } from "../api/User.api";
 import { useNavigate } from "react-router-dom";
 
 function SignIn() {
-  const emailRef = useRef<HTMLInputElement>();
-  const passwordRef = useRef<HTMLInputElement>();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [disable, setDisable] = useState(false);
   const navigate = useNavigate();
   const onSubmit = async () => {
     setDisable(true);
     try {
-      const email = emailRef.current?.value;
-      const password = passwordRef.current?.value;
+      const email = emailRef.current?.value ?? "";
+      const password = passwordRef.current?.value ?? "";
       await loginUser({ email, password });
       setDisable(true);
       navigate("/");

@@ -27,6 +27,15 @@ export interface addContentProps {
   description: string;
 }
 
+export interface Content {
+  _id: string;
+  title: string;
+  contentFormat: ContentType;
+  link: string;
+  description: string;
+  isShared: boolean;
+}
+
 function Home() {
   const navigate = useNavigate();
   const [selectedContentId, setSelectedContentId] = useState<string | null>(
@@ -130,7 +139,7 @@ function Home() {
         <Navbar addOpen={() => setModalOpen(true)} />
         <div className="  md:px-2 flex gap-2 md:gap-4 flex-wrap justify-center md:justify-start">
           {contents &&
-            contents.map((content) => (
+            contents.map((content: Content) => (
               <Card
                 key={content._id}
                 title={content.title}

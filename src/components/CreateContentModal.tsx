@@ -18,16 +18,14 @@ function CreateContentModal({
   onClose,
   addContent,
 }: CreateContentProps) {
-  const titleRef = useRef<HTMLInputElement>();
-  const linkRef = useRef<HTMLInputElement>();
-  const [contentFormat, setContentFormat] = useState<ContentType>(
-    "youtube"
-  );
+  const titleRef = useRef<HTMLInputElement>(null);
+  const linkRef = useRef<HTMLInputElement>(null);
+  const [contentFormat, setContentFormat] = useState<ContentType>("youtube");
   const [description, setDescription] = useState("");
 
   const submitContent = () => {
-    const title = titleRef.current?.value;
-    const link = linkRef.current?.value;
+    const title = titleRef.current?.value ?? "";
+    const link = linkRef.current?.value ?? "";
     addContent({ title, link, contentFormat, description });
     onClose();
   };

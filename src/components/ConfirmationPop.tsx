@@ -1,4 +1,3 @@
-import CloseIcon from "../icons/CloseIcon";
 import Button from "./Button";
 
 interface ConfimationPopProps {

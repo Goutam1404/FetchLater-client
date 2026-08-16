@@ -7,15 +7,15 @@ import { useNavigate } from "react-router-dom";
 function SignUp() {
   const navigate = useNavigate();
   const [disable, setDisable] = useState(false);
-  const usernameRef = useRef<HTMLInputElement>();
-  const emailRef = useRef<HTMLInputElement>();
-  const passwordRef = useRef<HTMLInputElement>();
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async () => {
     try {
-      const username = usernameRef.current.value;
-      const email = emailRef.current?.value;
-      const password = passwordRef.current?.value;
+      const username = usernameRef.current?.value ?? "";
+      const email = emailRef.current?.value ?? "";
+      const password = passwordRef.current?.value ?? "";
       await registerUser({ username, email, password });
       setDisable(true);
       navigate("/signin");
