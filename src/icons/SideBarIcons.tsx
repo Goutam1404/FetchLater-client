@@ -37,7 +37,7 @@ export function HashTagIcon(props: IconProps) {
   );
 }
 
-export function XIcon() {
+export function XIcon(_props: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ export function XIcon() {
   );
 }
 
-export function YouTubeIcon() {
+export function YouTubeIcon(_props: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ export function YouTubeIcon() {
   );
 }
 
-export function LinkedinIcon() {
+export function LinkedinIcon(_props: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
